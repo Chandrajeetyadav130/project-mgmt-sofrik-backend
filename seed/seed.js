@@ -8,7 +8,7 @@ const Task = require('../models/Task');
 
 (async () => {
   try {
-    const uri = process.env.MONGO_URI || 'mongodb://localhost:27017/pm_tool';
+    const uri = process.env.atlas_DB_URL;
     await connectDB(uri);
 
     // Clear
