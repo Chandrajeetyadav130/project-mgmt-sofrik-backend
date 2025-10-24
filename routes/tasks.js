@@ -44,12 +44,16 @@ router.delete('/:id', auth, async (req, res) => {
   try {
     const task = await Task.findById(req.params.id).populate('project');
     if (!task) return res.status(404).json({ message: 'Not found' });
+    if (!task.project) {
+      return res.status(400).json({ message: 'Project reference missing' });
+    }
 
     if (String(task.project.owner) !== String(req.user._id)) {
       return res.status(403).json({ message: 'Forbidden' });
     }
 
-    await task.remove();
+    // await task.remove();
+    await task.deleteOne()
     res.json({ message: 'Deleted' });
   } catch (err) {
     console.error(err);
